@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello you</title>
+        <link rel="import" href="bower_components/paper-input/paper-input.html">
+        <link rel="import" href="bower_components/paper-button/paper-button.html">
+        <link rel="import" href="bower_components/paper-button/paper-button.html">
+        <link rel="import" href="bower_components/paper-dialog/paper-action-dialog.html">
+
+        <link rel="stylesheet" href="bower_components/polymer-themes/la-resistance/theme.css">
+
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                background-color: #78bdee;
+            }
+            .center {
+                width: 320px;
+                margin: 5em auto;
+            }
+            p {
+                background-color: red;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="center">
+        <template id="autoBinding" is="auto-binding">
+            <paper-input label="enter your name here..." value="{{name}}"></paper-input>
+            <paper-button primary raised on-tap="{{openDialog}}">Say Hello</paper-button>
+
+            <paper-action-dialog id="myDialog" heading="Hello" backdrop autoCloseDisabled>
+                <style>
+                    p {
+                        min-width: 20em;
+                    }
+                </style>
+                <p>Hello {{name}}</p>
+                <paper-button affirmative>Close</paper-button>
+            </paper-action-dialog>
+        </template>
+    </div>
+
+    <script>
+        document.getElementById("autoBinding").openDialog = function(){
+            this.$.myDialog.toggle();
+        };
+    </script>
+    </body>
+</html>

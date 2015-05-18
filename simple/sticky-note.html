@@ -1,0 +1,57 @@
+<template>
+    <style>
+        .glue-bar {
+            background: #faf9b9;
+            height: 2em;
+        }
+
+        .content {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            font-size: 16px;
+            color: dimgrey;
+            background: #fffebb;
+            padding: 1em;
+            min-height: 13em;
+            width: 15em;
+        }
+        .paper {
+            display: inline-block;
+            box-shadow: 10px 10px 5px #AAA;
+        }
+    </style>
+
+    <div class="paper">
+        <div class="glue-bar"></div>
+        <div class="content">
+            <content></content>
+        </div>
+    </div>
+</template>
+
+<script>
+    (function(){
+        // note:
+        // * document = importing page's document
+        // * document.currentScript.ownerDocument = this file's document
+        // * this document has only one <template>, don't care about <template>s in other documents
+        var template = document.currentScript.ownerDocument.getElementsByTagName('template')[0];
+
+        // create web component
+        var StickyNotePrototype = Object.create(HTMLElement.prototype);
+        // createdCallback is like a constructor
+        StickyNotePrototype.createdCallback = function () {
+            // creating the shadow root:
+            // * createShadowRoot(): enables the shadow host behavior + return the shadow root
+            // * template.content returns the document fragment containing the <templates> content.
+            // * document.importNode(): we need to import: import = clone + adapt the owner document
+            this.createShadowRoot().appendChild(document.importNode(template.content, true));
+
+            // doing some custom stuff
+            this.style.display = "inline-block";
+            this.style.margin = "1em";
+        };
+
+        // registerating the new custom component; the return value the new element prototype
+        var StickyNote = document.registerElement('sticky-note', {prototype: StickyNotePrototype});
+    })();
+</script>
